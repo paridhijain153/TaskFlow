@@ -1,13 +1,12 @@
 
 import { useState } from "react";
-import axios from "axios";
 import {
   useNavigate,
   Link,
 } from "react-router-dom";
 
 import { LockKeyhole } from "lucide-react";
-
+import API from "../services/api";
 export default function Login() {
 
   const [email, setEmail] =
@@ -27,8 +26,8 @@ export default function Login() {
     try {
       setLoading(true);
 
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+const res = await API.post(
+  "/auth/login",
         {
           email,
           password,

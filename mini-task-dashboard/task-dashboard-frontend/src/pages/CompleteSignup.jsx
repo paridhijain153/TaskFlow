@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import API from "../services/api";
 
 import {
   useNavigate,
@@ -31,8 +31,8 @@ export default function CompleteSignup() {
 
       setLoading(true);
 
-      await axios.post(
-        "http://localhost:5000/api/auth/complete-signup",
+      await API.post(
+        "/auth/complete-signup",
         {
           name,
           email,
@@ -40,8 +40,8 @@ export default function CompleteSignup() {
         }
       );
 
-      const res = await axios.post(
-  "http://localhost:5000/api/auth/login",
+      const res = await API.post(
+  "/auth/login",
   {
     email,
     password,

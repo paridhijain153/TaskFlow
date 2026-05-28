@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import axios from "axios";
+import API from "../services/api";
 
 import {
   useNavigate,
@@ -29,8 +29,8 @@ export default function VerifyOTP() {
 
       setLoading(true);
 
-      await axios.post(
-        "http://localhost:5000/api/auth/verify-otp",
+      await API.post(
+        "/auth/verify-otp",
         {
           email,
           otp,
