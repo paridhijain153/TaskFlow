@@ -46,8 +46,8 @@ const TaskForm = ({ fetchTasks }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-      <h2 className="text-xl font-semibold mb-4">
+    <div className="bg-white rounded-3xl shadow-lg p-8 mb-8 border border-gray-100">
+      <h2 className="text-2xl font-bold mb-6">
         Create New Task
       </h2>
 
@@ -59,7 +59,7 @@ const TaskForm = ({ fetchTasks }) => {
           value={formData.title}
           onChange={handleChange}
           required
-          className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-indigo-500 transition"
         />
 
         <textarea
@@ -69,7 +69,7 @@ const TaskForm = ({ fetchTasks }) => {
           onChange={handleChange}
           required
           rows="4"
-          className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-indigo-500 transition"
         />
 
         <input
@@ -78,13 +78,13 @@ const TaskForm = ({ fetchTasks }) => {
           value={formData.dueDate}
           onChange={handleChange}
           required
-          className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-indigo-500 transition"
         />
 
         <button
           type="submit"
           disabled={loading}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition duration-200"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl transition font-semibold shadow-md"
         >
           {loading ? "Creating..." : "Create Task"}
         </button>
