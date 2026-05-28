@@ -1,4 +1,6 @@
+
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import TaskCard from "../components/TaskCard";
 import Navbar from "../components/Navbar";
@@ -9,16 +11,40 @@ import api from "../services/api";
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
 
+  const navigate = useNavigate();
+
   const fetchTasks = async () => {
     try {
-      const response = await api.get("/tasks");
+      const token = localStorage.getItem("token");
+
+      const response = await api.get("/tasks", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       setTasks(response.data.data);
     } catch (error) {
       console.error(error);
+
+      // If token invalid/expired
+      if (error.response?.status === 401) {
+        localStorage.removeItem("token");
+
+        navigate("/login");
+      }
     }
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    // Redirect if not logged in
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     fetchTasks();
   }, []);
 
@@ -46,7 +72,9 @@ const Dashboard = () => {
         {/* Stats Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 
+          {/* Total Tasks */}
           <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+
             <p className="text-gray-500 text-sm">
               Total Tasks
             </p>
@@ -54,9 +82,12 @@ const Dashboard = () => {
             <h2 className="text-4xl font-bold mt-3 text-indigo-600">
               {tasks.length}
             </h2>
+
           </div>
 
+          {/* In Progress */}
           <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+
             <p className="text-gray-500 text-sm">
               In Progress
             </p>
@@ -64,9 +95,12 @@ const Dashboard = () => {
             <h2 className="text-4xl font-bold mt-3 text-yellow-500">
               {inProgressTasks.length}
             </h2>
+
           </div>
 
+          {/* Completed */}
           <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+
             <p className="text-gray-500 text-sm">
               Completed
             </p>
@@ -74,6 +108,7 @@ const Dashboard = () => {
             <h2 className="text-4xl font-bold mt-3 text-green-500">
               {completedTasks.length}
             </h2>
+
           </div>
 
         </div>
@@ -102,8 +137,13 @@ const Dashboard = () => {
             {
               todoTasks.length === 0 ? (
                 <div className="flex flex-col items-center justify-center mt-24 text-gray-400">
-                  <p className="text-6xl mb-4">📋</p>
+
+                  <p className="text-6xl mb-4">
+                    📋
+                  </p>
+
                   <p>No tasks available</p>
+
                 </div>
               ) : (
                 todoTasks.map((task) => (
@@ -136,8 +176,13 @@ const Dashboard = () => {
             {
               inProgressTasks.length === 0 ? (
                 <div className="flex flex-col items-center justify-center mt-24 text-gray-400">
-                  <p className="text-6xl mb-4">🚀</p>
+
+                  <p className="text-6xl mb-4">
+                    🚀
+                  </p>
+
                   <p>No active tasks</p>
+
                 </div>
               ) : (
                 inProgressTasks.map((task) => (
@@ -170,8 +215,13 @@ const Dashboard = () => {
             {
               completedTasks.length === 0 ? (
                 <div className="flex flex-col items-center justify-center mt-24 text-gray-400">
-                  <p className="text-6xl mb-4">✅</p>
+
+                  <p className="text-6xl mb-4">
+                    ✅
+                  </p>
+
                   <p>No completed tasks</p>
+
                 </div>
               ) : (
                 completedTasks.map((task) => (
@@ -187,6 +237,7 @@ const Dashboard = () => {
           </div>
 
         </div>
+
       </div>
     </div>
   );

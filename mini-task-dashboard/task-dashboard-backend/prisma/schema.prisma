@@ -19,11 +19,25 @@ enum TaskStatus {
   COMPLETED
 }
 
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+model OTP {
+  id        Int      @id @default(autoincrement())
+  email     String
+  otp       String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
 model Task {
   id          String      @id @default(uuid())
   title       String
   description String
-  status      TaskStatus
+status TaskStatus @default(TODO)
   progress    Int @default(0)
   dueDate     DateTime
   createdAt   DateTime @default(now())
