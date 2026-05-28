@@ -56,7 +56,7 @@ export default function CompleteSignup() {
 
       // Complete signup
       await API.post(
-        "/auth/complete-signup",
+        "/api/auth/complete-signup",
         {
           name,
           email,
@@ -66,7 +66,7 @@ export default function CompleteSignup() {
 
       // Auto login
       const res = await API.post(
-        "/auth/login",
+        "/api/auth/login",
         {
           email,
           password,
