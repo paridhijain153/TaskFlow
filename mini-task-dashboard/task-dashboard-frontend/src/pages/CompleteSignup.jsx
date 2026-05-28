@@ -1,21 +1,36 @@
-import { useState } from "react"
-import axios from "axios"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react";
+import axios from "axios";
+
+import {
+  useNavigate,
+  Link,
+} from "react-router-dom";
+
+import { UserPlus } from "lucide-react";
 
 export default function CompleteSignup() {
-  const [name, setName] = useState("")
-  const [password, setPassword] =
-    useState("")
 
-  const navigate = useNavigate()
+  const [name, setName] =
+    useState("");
+
+  const [password, setPassword] =
+    useState("");
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const navigate = useNavigate();
 
   const email =
-    localStorage.getItem("signupEmail")
+    localStorage.getItem("signupEmail");
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
+
+      setLoading(true);
+
       await axios.post(
         "http://localhost:5000/api/auth/complete-signup",
         {
@@ -23,48 +38,124 @@ export default function CompleteSignup() {
           email,
           password,
         }
-      )
+      );
 
-      alert("Signup completed")
-
-      navigate("/login")
-    } catch (err) {
-      alert(err.response.data.message)
-    }
+      const res = await axios.post(
+  "http://localhost:5000/api/auth/login",
+  {
+    email,
+    password,
   }
+);
+
+localStorage.setItem(
+  "token",
+  res.data.token
+);
+
+localStorage.setItem(
+  "user",
+  JSON.stringify(res.data.user)
+);
+
+navigate("/dashboard");
+
+    } catch (err) {
+
+      alert(
+        err.response?.data?.message
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4 w-96"
-      >
-        <h1 className="text-3xl font-bold">
-          Complete Signup
-        </h1>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center px-4">
 
-        <input
-          type="text"
-          placeholder="Name"
-          className="border p-2 w-full"
-          onChange={(e) =>
-            setName(e.target.value)
-          }
-        />
+      <div className="w-full max-w-md bg-white/20 backdrop-blur-lg border border-white/30 shadow-2xl rounded-3xl p-8 text-white">
 
-        <input
-          type="password"
-          placeholder="Password"
-          className="border p-2 w-full"
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-        />
+        <div className="text-center mb-8">
 
-        <button className="bg-black text-white px-4 py-2 rounded">
-          Create Account
-        </button>
-      </form>
+          <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
+
+            <UserPlus size={34} />
+
+          </div>
+
+          <h1 className="text-4xl font-bold mb-2">
+            Create Account
+          </h1>
+
+          <p className="text-white/80">
+            Complete your signup
+          </p>
+
+        </div>
+
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-5"
+        >
+
+          <input
+            type="text"
+            placeholder="Your Name"
+            value={name}
+            onChange={(e) =>
+              setName(e.target.value)
+            }
+            className="w-full bg-white/20 border border-white/20 rounded-2xl px-5 py-4 outline-none placeholder:text-white/60 focus:border-white transition"
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Create Password"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+            className="w-full bg-white/20 border border-white/20 rounded-2xl px-5 py-4 outline-none placeholder:text-white/60 focus:border-white transition"
+            required
+          />
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-white text-indigo-600 font-semibold py-4 rounded-2xl hover:scale-[1.02] transition duration-300 shadow-lg disabled:opacity-70"
+          >
+
+            {
+              loading
+                ? "Creating Account..."
+                : "Create Account"
+            }
+
+          </button>
+
+          <div className="text-center pt-2">
+
+            <p className="text-white/80 text-sm">
+              Already registered?
+            </p>
+
+            <Link
+              to="/login"
+              className="font-semibold underline"
+            >
+              Login
+            </Link>
+
+          </div>
+
+        </form>
+
+      </div>
+
     </div>
-  )
+  );
 }

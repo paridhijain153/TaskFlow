@@ -1,11 +1,27 @@
 
-import { Bell, Search } from "lucide-react";
+import {
+  Bell,
+  Search,
+  LogOut,
+} from "lucide-react";
+
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+
+  const navigate = useNavigate();
 
   const user = JSON.parse(
     localStorage.getItem("user")
   );
+
+  const handleLogout = () => {
+
+    localStorage.clear();
+
+    navigate("/login");
+
+  };
 
   return (
     <div className="bg-white border-b sticky top-0 z-50">
@@ -51,23 +67,37 @@ const Navbar = () => {
 
           </button>
 
-          {/* Username */}
-          <div className="px-4 py-2">
+          {/* User */}
+          <div className="hidden sm:block">
 
-            <p className="text-sm text-gray-500">
+            <p className="text-xs text-gray-500">
               Hello 👋
             </p>
 
-            <h3 className="text-sm text-gray-500">
+            <h3 className="font-semibold text-gray-800">
+
               {
-  user?.name
-    ? user.name.charAt(0).toUpperCase() +
-      user.name.slice(1)
-    : "User"
-}
+                user?.name
+                  ? user.name.charAt(0).toUpperCase() +
+                    user.name.slice(1)
+                  : "User"
+              }
+
             </h3>
 
           </div>
+
+          {/* Logout */}
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 bg-red-200 hover:bg-red-400 text-white px-2 py-1 rounded-xl transition"
+          >
+
+            <LogOut size={14} />
+
+            Logout
+
+          </button>
 
         </div>
 
