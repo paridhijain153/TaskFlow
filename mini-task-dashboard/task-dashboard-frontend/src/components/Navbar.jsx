@@ -31,11 +31,11 @@ const Navbar = () => {
             <Bell size={20} />
           </button>
 
-          <img
-            src="https://i.pravatar.cc/40"
-            alt="avatar"
-            className="w-10 h-10 rounded-full"
-          />
+          <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+            <span className="text-indigo-600 font-semibold text-sm">
+              U
+            </span>
+          </div>
         </div>
       </div>
     </div>
