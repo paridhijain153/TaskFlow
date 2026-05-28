@@ -309,7 +309,7 @@ npm run lint      # Run ESLint
 
 ## Login Page
 
-![Login Page]./screenshots/login-page.png)
+![Login Page](./screenshots/login-page.png)
 
 ## Dashboard Overview
 
