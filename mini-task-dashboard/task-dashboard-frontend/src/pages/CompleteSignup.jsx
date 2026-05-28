@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import API from "../services/api";
 
 import {
@@ -7,6 +8,8 @@ import {
 } from "react-router-dom";
 
 import { UserPlus } from "lucide-react";
+
+import toast from "react-hot-toast";
 
 export default function CompleteSignup() {
 
@@ -25,12 +28,33 @@ export default function CompleteSignup() {
     localStorage.getItem("signupEmail");
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
+
+    // Basic frontend validation
+    if (!name || !password) {
+
+      toast.error(
+        "Please fill all fields"
+      );
+
+      return;
+    }
+
+    if (password.length < 6) {
+
+      toast.error(
+        "Password must be at least 6 characters"
+      );
+
+      return;
+    }
 
     try {
 
       setLoading(true);
 
+      // Complete signup
       await API.post(
         "/auth/complete-signup",
         {
@@ -40,30 +64,37 @@ export default function CompleteSignup() {
         }
       );
 
+      // Auto login
       const res = await API.post(
-  "/auth/login",
-  {
-    email,
-    password,
-  }
-);
+        "/auth/login",
+        {
+          email,
+          password,
+        }
+      );
 
-localStorage.setItem(
-  "token",
-  res.data.token
-);
+      localStorage.setItem(
+        "token",
+        res.data.token
+      );
 
-localStorage.setItem(
-  "user",
-  JSON.stringify(res.data.user)
-);
+      localStorage.setItem(
+        "user",
+        JSON.stringify(res.data.user)
+      );
 
-navigate("/dashboard");
+      toast.success(
+        "Account created successfully"
+      );
+
+      navigate("/dashboard");
 
     } catch (err) {
 
-      alert(
-        err.response?.data?.message
+      toast.error(
+        err?.response?.data?.message ||
+        err?.message ||
+        "Something went wrong"
       );
 
     } finally {
@@ -126,7 +157,7 @@ navigate("/dashboard");
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-white text-indigo-600 font-semibold py-4 rounded-2xl hover:scale-[1.02] transition duration-300 shadow-lg disabled:opacity-70"
+            className="w-full bg-white text-indigo-600 font-semibold py-4 rounded-2xl hover:scale-[1.02] transition duration-300 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
           >
 
             {

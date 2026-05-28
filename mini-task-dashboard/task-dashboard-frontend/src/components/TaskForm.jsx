@@ -1,37 +1,39 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
+
 import api from "../services/api";
 
 const TaskForm = ({ fetchTasks }) => {
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [deadline, setDeadline] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const [loading, setLoading] = useState(false);
 
-    console.log("Button Clicked");
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
 
     // Validation
     if (!title || !description || !deadline) {
-      alert("Please fill all fields");
+
+      toast.error("Please fill all fields");
+
       return;
     }
 
     try {
-      console.log({
+
+      setLoading(true);
+
+      await api.post("/tasks", {
         title,
         description,
-        deadline,
+        dueDate: deadline,
+        status: "TODO",
+        progress: 0,
       });
-
-      const response = await api.post("/tasks", {
-  title,
-  description,
-  dueDate: deadline,
-  status: "TODO",
-});
-
-      console.log(response.data);
 
       // Reset fields
       setTitle("");
@@ -41,15 +43,21 @@ const TaskForm = ({ fetchTasks }) => {
       // Refresh tasks
       fetchTasks();
 
-      alert("Task Created Successfully");
+      toast.success(
+        "Task created successfully"
+      );
 
     } catch (error) {
-      console.error(error);
 
-      alert(
+      toast.error(
+        error?.response?.data?.errors?.[0]?.message ||
         error?.response?.data?.message ||
         "Something went wrong"
       );
+
+    } finally {
+
+      setLoading(false);
     }
   };
 
@@ -70,7 +78,9 @@ const TaskForm = ({ fetchTasks }) => {
           type="text"
           placeholder="Task title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) =>
+            setTitle(e.target.value)
+          }
           className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 outline-none"
         />
 
@@ -78,7 +88,9 @@ const TaskForm = ({ fetchTasks }) => {
         <textarea
           placeholder="Task description"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) =>
+            setDescription(e.target.value)
+          }
           rows="4"
           className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 outline-none resize-none"
         />
@@ -87,16 +99,21 @@ const TaskForm = ({ fetchTasks }) => {
         <input
           type="date"
           value={deadline}
-          onChange={(e) => setDeadline(e.target.value)}
+          onChange={(e) =>
+            setDeadline(e.target.value)
+          }
           className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 outline-none"
         />
 
         {/* Button */}
         <button
           type="submit"
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl transition font-semibold shadow-md"
+          disabled={loading}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl transition font-semibold shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          Create Task
+          {loading
+            ? "Creating..."
+            : "Create Task"}
         </button>
 
       </form>

@@ -1,12 +1,16 @@
-
 import { useState } from "react";
+
 import {
   useNavigate,
   Link,
 } from "react-router-dom";
 
 import { LockKeyhole } from "lucide-react";
+
+import toast from "react-hot-toast";
+
 import API from "../services/api";
+
 export default function Login() {
 
   const [email, setEmail] =
@@ -21,13 +25,25 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
+
     e.preventDefault();
 
+    // Basic validation
+    if (!email || !password) {
+
+      toast.error(
+        "Please fill all fields"
+      );
+
+      return;
+    }
+
     try {
+
       setLoading(true);
 
-const res = await API.post(
-  "/auth/login",
+      const res = await API.post(
+        "/auth/login",
         {
           email,
           password,
@@ -44,17 +60,24 @@ const res = await API.post(
         JSON.stringify(res.data.user)
       );
 
+      toast.success(
+        "Login successful"
+      );
+
       navigate("/dashboard");
 
     } catch (err) {
 
-      alert(
-        err.response?.data?.message ||
+      toast.error(
+        err?.response?.data?.message ||
+        err?.message ||
         "Login failed"
       );
 
     } finally {
+
       setLoading(false);
+
     }
   };
 
@@ -111,7 +134,7 @@ const res = await API.post(
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-white text-indigo-600 font-semibold py-4 rounded-2xl hover:scale-[1.02] transition duration-300 shadow-lg disabled:opacity-70"
+            className="w-full bg-white text-indigo-600 font-semibold py-4 rounded-2xl hover:scale-[1.02] transition duration-300 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
           >
 
             {

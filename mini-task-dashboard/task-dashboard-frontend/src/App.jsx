@@ -1,4 +1,3 @@
-
 import {
   BrowserRouter,
   Routes,
@@ -12,6 +11,8 @@ import VerifyOTP from "./pages/VerifyOTP";
 import CompleteSignup from "./pages/CompleteSignup";
 import Dashboard from "./pages/Dashboard";
 
+import { Toaster } from "react-hot-toast";
+
 function App() {
 
   const token =
@@ -19,6 +20,9 @@ function App() {
 
   return (
     <BrowserRouter>
+
+      {/* Toast Notifications */}
+      <Toaster position="top-right" />
 
       <Routes>
 

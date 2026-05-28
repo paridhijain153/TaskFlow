@@ -1,5 +1,5 @@
-
 import { useState } from "react";
+
 import API from "../services/api";
 
 import {
@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 
 import { ShieldCheck } from "lucide-react";
+
+import toast from "react-hot-toast";
 
 export default function VerifyOTP() {
 
@@ -23,7 +25,27 @@ export default function VerifyOTP() {
     localStorage.getItem("signupEmail");
 
   const handleVerify = async (e) => {
+
     e.preventDefault();
+
+    // Validation
+    if (!otp) {
+
+      toast.error(
+        "Please enter OTP"
+      );
+
+      return;
+    }
+
+    if (otp.length !== 6) {
+
+      toast.error(
+        "OTP must be 6 digits"
+      );
+
+      return;
+    }
 
     try {
 
@@ -37,12 +59,18 @@ export default function VerifyOTP() {
         }
       );
 
+      toast.success(
+        "OTP verified successfully"
+      );
+
       navigate("/complete-signup");
 
     } catch (err) {
 
-      alert(
-        err.response?.data?.message
+      toast.error(
+        err?.response?.data?.message ||
+        err?.message ||
+        "OTP verification failed"
       );
 
     } finally {
@@ -95,7 +123,7 @@ export default function VerifyOTP() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-white text-indigo-600 font-semibold py-4 rounded-2xl hover:scale-[1.02] transition duration-300 shadow-lg disabled:opacity-70"
+            className="w-full bg-white text-indigo-600 font-semibold py-4 rounded-2xl hover:scale-[1.02] transition duration-300 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
           >
 
             {

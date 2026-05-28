@@ -19,13 +19,6 @@ enum TaskStatus {
   COMPLETED
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-}
 model OTP {
   id        Int      @id @default(autoincrement())
   email     String
@@ -33,13 +26,24 @@ model OTP {
   expiresAt DateTime
   createdAt DateTime @default(now())
 }
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  tasks      Task[]
+}
+
 model Task {
-  id          String      @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
-  description String
-status TaskStatus @default(TODO)
-  progress    Int @default(0)
-  dueDate     DateTime
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime    @updatedAt
+  description String?
+  status      String
+  progress    Int
+  dueDate     DateTime?
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

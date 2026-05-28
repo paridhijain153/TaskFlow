@@ -1,29 +1,43 @@
 const taskService = require("../services/taskService");
+const { taskSchema } = require("../validators/taskValidator");
+const { ZodError } = require("zod");
 
 const createTask = async (req, res) => {
   try {
-  const {
-    title,
-    description,
-    status,
-    progress,
-    dueDate,
-  } = req.body;
+
+    const validatedData = taskSchema.parse(req.body);
+
+    const {
+      title,
+      description,
+      status,
+      progress,
+      dueDate,
+    } = validatedData;
 
     const newTask = await taskService.createTask({
       title,
       description,
       status,
       progress,
-      dueDate: new Date(dueDate),
+      dueDate: dueDate ? new Date(dueDate) : null,
+      userId: req.user.id,
     });
 
     res.status(201).json({
       success: true,
       data: newTask,
     });
+
   } catch (error) {
-    console.error(error);
+
+    if (error instanceof ZodError) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation failed",
+        errors: error.errors,
+      });
+    }
 
     res.status(500).json({
       success: false,
@@ -31,16 +45,18 @@ const createTask = async (req, res) => {
     });
   }
 };
+
 const getAllTasks = async (req, res) => {
   try {
-    const tasks = await taskService.getAllTasks();
+
+    const tasks = await taskService.getAllTasks(req.user.id);
 
     res.status(200).json({
       success: true,
       data: tasks,
     });
+
   } catch (error) {
-    console.error(error);
 
     res.status(500).json({
       success: false,
@@ -51,9 +67,13 @@ const getAllTasks = async (req, res) => {
 
 const getTaskById = async (req, res) => {
   try {
+
     const { id } = req.params;
 
-    const task = await taskService.getTaskById(id);
+    const task = await taskService.getTaskById(
+      id,
+      req.user.id
+    );
 
     if (!task) {
       return res.status(404).json({
@@ -66,8 +86,8 @@ const getTaskById = async (req, res) => {
       success: true,
       data: task,
     });
+
   } catch (error) {
-    console.error(error);
 
     res.status(500).json({
       success: false,
@@ -78,30 +98,45 @@ const getTaskById = async (req, res) => {
 
 const updateTask = async (req, res) => {
   try {
+
+    const validatedData = taskSchema.parse(req.body);
+
     const { id } = req.params;
 
     const {
-    title,
-    description,
-    status,
-    progress,
-    dueDate,
-      } = req.body;
-
-    const updatedTask = await taskService.updateTask(id, {
       title,
       description,
       status,
       progress,
-      dueDate: new Date(dueDate),
-    });
+      dueDate,
+    } = validatedData;
+
+    const updatedTask = await taskService.updateTask(
+      id,
+      req.user.id,
+      {
+        title,
+        description,
+        status,
+        progress,
+        dueDate: dueDate ? new Date(dueDate) : null,
+      }
+    );
 
     res.status(200).json({
       success: true,
       data: updatedTask,
     });
+
   } catch (error) {
-    console.error(error);
+
+    if (error instanceof ZodError) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation failed",
+        errors: error.errors,
+      });
+    }
 
     res.status(500).json({
       success: false,
@@ -112,16 +147,20 @@ const updateTask = async (req, res) => {
 
 const deleteTask = async (req, res) => {
   try {
+
     const { id } = req.params;
 
-    await taskService.deleteTask(id);
+    await taskService.deleteTask(
+      id,
+      req.user.id
+    );
 
     res.status(200).json({
       success: true,
       message: "Task deleted successfully",
     });
+
   } catch (error) {
-    console.error(error);
 
     res.status(500).json({
       success: false,
