@@ -1,46 +1,68 @@
-# Task Dashboard
+# 🚀 TaskFlow
 
-A modern full-stack task management dashboard built with **React, Vite, Node.js, Express, Prisma, and PostgreSQL**. The application provides a clean and responsive interface for managing tasks, tracking progress, and handling user authentication with OTP verification.
+Built with React, Node.js, Express, Prisma ORM, Supabase PostgreSQL, JWT Authentication, and Brevo Email Verification.
+A production-ready full-stack task management platform that helps users organize, track, and manage their tasks efficiently.
+
+TaskFlow features secure JWT authentication, OTP-based email verification via Brevo, task progress tracking, and a responsive dashboard built with modern web technologies including React, Express, Prisma, and Supabase PostgreSQL.
 
 ---
 
-## 🚀 Features
+## 🌐 Live Demo
 
-### Authentication & Security
+### Frontend
 
-* User signup and login system
-* OTP email verification flow
-* Password hashing using `bcryptjs`
-* JWT-based authentication
-* Protected API routes
+https://task-flow-three-ecru.vercel.app
 
-### Task Management
+### Backend API
 
-* Create, update, and delete tasks
-* Task status tracking:
+https://taskflow-dy5l.onrender.com
 
-  * TODO
-  * IN_PROGRESS
-  * COMPLETED
-* Progress tracking for each task
-* Due date management
-* Responsive dashboard UI
+### GitHub Repository
 
-### Frontend Experience
+https://github.com/paridhijain153/TaskFlow
 
-* Built with React + Vite
-* Clean and modern UI
-* Toast notifications using `react-hot-toast`
-* Client-side routing with `react-router-dom`
-* Reusable component-based architecture
+---
 
-### Backend Architecture
+# ✨ Features
 
-* RESTful API with Express.js
-* Prisma ORM integration
-* PostgreSQL database support
-* Modular folder structure
-* Email utility integration using Nodemailer
+## 🔐 Authentication & Security
+
+* User Registration & Login
+* Email OTP Verification
+* JWT-Based Authentication
+* Password Hashing using bcryptjs
+* Protected Routes
+* Secure Session Management
+
+## 📧 Email Verification
+
+* OTP Generation & Validation
+* Brevo SMTP Integration
+* Expiring OTP System
+* Secure Account Activation Workflow
+
+## 📋 Task Management
+
+* Create Tasks
+* Edit Tasks
+* Delete Tasks
+* Track Task Progress
+* Manage Due Dates
+* Status-Based Task Organization
+
+### Supported Task Statuses
+
+* TODO
+* IN_PROGRESS
+* COMPLETED
+
+## 🎨 User Experience
+
+* Clean and Responsive UI
+* Mobile-Friendly Design
+* Toast Notifications
+* Intuitive Navigation
+* Modern Dashboard Interface
 
 ---
 
@@ -48,109 +70,175 @@ A modern full-stack task management dashboard built with **React, Vite, Node.js,
 
 ## Frontend
 
-* React 19
+* React.js
 * Vite
 * Tailwind CSS
-* Axios
 * React Router DOM
-* Lucide React Icons
+* Axios
 * React Hot Toast
+* Lucide React
 
 ## Backend
 
 * Node.js
 * Express.js
 * Prisma ORM
-* PostgreSQL
+* Zod Validation
 * JWT Authentication
-* Nodemailer
 * bcryptjs
+* Brevo SMTP Integration
+
+## Database
+
+* Supabase PostgreSQL
+
+## Deployment
+
+* Vercel (Frontend)
+* Render (Backend)
+* Supabase (Database)
+
+---
+
+# 🏗️ Architecture
+
+```text
+Client (React + Vite)
+        │
+        ▼
+REST API (Express.js)
+        │
+        ▼
+Prisma ORM
+        │
+        ▼
+Supabase PostgreSQL
+```
+
+---
+
+# 🔄 Authentication Flow
+
+```text
+Signup
+   │
+   ▼
+Enter Email
+   │
+   ▼
+Receive OTP via Brevo
+   │
+   ▼
+Verify OTP
+   │
+   ▼
+Complete Signup
+   │
+   ▼
+Login
+   │
+   ▼
+JWT Token Generated
+   │
+   ▼
+Dashboard Access
+```
 
 ---
 
 # 📁 Project Structure
 
-```bash
-mini-task-dashboard/
+```text
+TaskFlow
 │
-├── task-dashboard-frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   └── App.jsx
-│   └── package.json
-│
-├── task-dashboard-backend/
-│   ├── prisma/
+├── task-dashboard-backend
+│   │
+│   ├── prisma
+│   │   ├── migrations
 │   │   └── schema.prisma
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── middlewares/
-│   │   ├── prisma/
-│   │   ├── routes/
-│   │   ├── services/
-│   │   ├── utils/
+│   │
+│   ├── src
+│   │   ├── controllers
+│   │   ├── middlewares
+│   │   ├── prisma
+│   │   ├── routes
+│   │   ├── services
+│   │   ├── utils
+│   │   ├── validators
 │   │   ├── app.js
 │   │   └── server.js
+│   │
+│   ├── .env
 │   └── package.json
 │
-└── README.md
+└── task-dashboard-frontend
+    │
+    ├── src
+    │   ├── components
+    │   ├── pages
+    │   ├── services
+    │   ├── App.jsx
+    │   ├── main.jsx
+    │   └── index.css
+    │
+    ├── .env
+    ├── package.json
+    ├── tailwind.config.js
+    ├── postcss.config.js
+    └── vercel.json
 ```
 
 ---
 
-# ⚙️ Installation & Setup
+# ⚙️ Environment Variables
 
-## 1️⃣ Clone the Repository
+## Backend (.env)
+
+```env
+DATABASE_URL=
+DIRECT_URL=
+
+PORT=5000
+
+JWT_SECRET=
+
+CLIENT_URL=https://task-flow-three-ecru.vercel.app
+
+BREVO_LOGIN=
+BREVO_SMTP_KEY=
+BREVO_API_KEY=
+```
+
+## Frontend (.env)
+
+```env
+VITE_API_URL=https://taskflow-dy5l.onrender.com
+```
+
+---
+
+# 🚀 Getting Started
+
+## Clone the Repository
 
 ```bash
-git clone https://github.com/paridhijain153/TaskFlow
-cd mini-task-dashboard
+git clone https://github.com/paridhijain153/TaskFlow.git
+cd TaskFlow
 ```
 
 ---
 
-## 2️⃣ Backend Setup
-
-Navigate to the backend folder:
+## Backend Setup
 
 ```bash
 cd task-dashboard-backend
-```
 
-Install dependencies:
-
-```bash
 npm install
-```
 
-Create a `.env` file:
-
-```env
-DATABASE_URL="your_postgresql_database_url"
-DIRECT_URL="your_postgresql_direct_url"
-JWT_SECRET="your_jwt_secret"
-EMAIL_USER="your_email@example.com"
-EMAIL_PASS="your_email_password"
-PORT=5000
-```
-
-Run Prisma migration:
-
-```bash
-npx prisma migrate dev
-```
-
-Generate Prisma client:
-
-```bash
 npx prisma generate
-```
 
-Start the backend server:
+npx prisma migrate deploy
 
-```bash
 npm run dev
 ```
 
@@ -162,29 +250,13 @@ http://localhost:5000
 
 ---
 
-## 3️⃣ Frontend Setup
-
-Open a new terminal and navigate to frontend:
+## Frontend Setup
 
 ```bash
 cd task-dashboard-frontend
-```
 
-Install dependencies:
-
-```bash
 npm install
-```
 
-Create a `.env` file:
-
-```env
-VITE_API_URL=http://localhost:5000
-```
-
-Start the frontend server:
-
-```bash
 npm run dev
 ```
 
@@ -196,196 +268,114 @@ http://localhost:5173
 
 ---
 
-# 🗄️ Database Schema
-
-## User Model
-
-```prisma
-model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-}
-```
-
-## OTP Model
-
-```prisma
-model OTP {
-  id        Int      @id @default(autoincrement())
-  email     String
-  otp       String
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-}
-```
-
-## Task Model
-
-```prisma
-model Task {
-  id          String      @id @default(uuid())
-  title       String
-  description String
-  status      TaskStatus  @default(TODO)
-  progress    Int         @default(0)
-  dueDate     DateTime
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-}
-```
-
----
-
-# 🔐 Authentication Flow
-
-1. User enters email during signup
-2. OTP is sent via email
-3. User verifies OTP
-4. Account creation is completed
-5. JWT token is generated after login
-6. Protected routes require valid authentication token
-
----
-
 # 📡 API Endpoints
 
-## Authentication Routes
+## Authentication
 
-| Method | Endpoint           | Description       |
-| ------ | ------------------ | ----------------- |
-| POST   | `/auth/signup`     | Register new user |
-| POST   | `/auth/login`      | User login        |
-| POST   | `/auth/send-otp`   | Send OTP email    |
-| POST   | `/auth/verify-otp` | Verify OTP        |
+| Method | Endpoint         | Description   |
+| ------ | ---------------- | ------------- |
+| POST   | /auth/send-otp   | Send OTP      |
+| POST   | /auth/verify-otp | Verify OTP    |
+| POST   | /auth/signup     | Register User |
+| POST   | /auth/login      | Login User    |
 
-## Task Routes
+## Tasks
 
-| Method | Endpoint     | Description     |
-| ------ | ------------ | --------------- |
-| GET    | `/tasks`     | Get all tasks   |
-| POST   | `/tasks`     | Create new task |
-| PUT    | `/tasks/:id` | Update task     |
-| DELETE | `/tasks/:id` | Delete task     |
-
----
-
-# 🧪 Available Scripts
-
-## Backend
-
-```bash
-npm run dev     # Start development server
-npm start       # Start production server
-```
-
-## Frontend
-
-```bash
-npm run dev       # Start Vite development server
-npm run build     # Build for production
-npm run preview   # Preview production build
-npm run lint      # Run ESLint
-```
+| Method | Endpoint   | Description     |
+| ------ | ---------- | --------------- |
+| GET    | /tasks     | Fetch All Tasks |
+| POST   | /tasks     | Create Task     |
+| PUT    | /tasks/:id | Update Task     |
+| DELETE | /tasks/:id | Delete Task     |
 
 ---
 
-# 🌟 Future Improvements
+# 🔍 Validation & Security
 
-* Task filtering and sorting
-* Drag-and-drop Kanban board
-* User profile management
-* Team collaboration support
-* Real-time notifications
-* Dark mode support
-* Task analytics dashboard
-* File upload support
+### Backend Validation
+
+* Request Validation using Zod
+* Input Sanitization
+* Structured Error Handling
+
+### Security Measures
+
+* JWT Authentication
+* Password Hashing using bcryptjs
+* Protected API Routes
+* OTP Expiration Validation
+* Environment Variable Protection
+
+---
+
+# 🎯 Key Learnings
+
+This project demonstrates practical experience with:
+
+* Full-Stack Development
+* REST API Design
+* Authentication & Authorization
+* Email Verification Systems
+* PostgreSQL Database Management
+* Prisma ORM
+* Frontend-Backend Integration
+* Production Deployment
+* Environment Configuration
+* Form Validation & Error Handling
+
+---
+
+# 🚀 Future Improvements
+
+* Task Search & Filtering
+* Drag-and-Drop Kanban Board
+* User Profile Management
+* Dark Mode
+* Team Collaboration Features
+* Real-Time Notifications
+* Task Analytics Dashboard
+* File Attachments
 
 ---
 
 # 📸 Screenshots
 
+Add screenshots inside a `screenshots` folder and reference them like:
+
+```md
 ## Login Page
+![Login](./screenshots/login.png)
 
-![Login Page](./screenshots/login-page.png)
+## OTP Verification
+![OTP](./screenshots/otp.png)
 
-## Dashboard Overview
-
+## Dashboard
 ![Dashboard](./screenshots/dashboard.png)
 
-## Task Board
-
-![Task Board](./screenshots/task-board.png)
-
----
-
-# 🌐 Live Demo
-
-## Frontend Deployment
-
-* Live App: [https://task-flow-three-ecru.vercel.app/](https://task-flow-three-ecru.vercel.app/)
-
-## Backend Deployment
-
-* API Server: [https://taskflow-dy5l.onrender.com](https://taskflow-dy5l.onrender.com)
-
-## GitHub Repository
-
-* Repository: [https://github.com/paridhijain153/TaskFlow](https://github.com/paridhijain153/TaskFlow)
+## Task Management
+![Tasks](./screenshots/tasks.png)
+```
 
 ---
 
-# 🚀 Deployment
+# 👩‍💻 Author
 
-## Frontend Deployment
+### Paridhi Jain
 
-You can deploy the frontend using:
+Full Stack Developer
 
-* Vercel
-* Netlify
-* Firebase Hosting
-
-## Backend Deployment
-
-You can deploy the backend using:
-
-* Render
-* Railway
-* Cyclic
-* AWS EC2
-
-## Database Hosting
-
-Recommended PostgreSQL providers:
-
-* Neon
-* Supabase
-* Railway
+GitHub: https://github.com/paridhijain153/TaskFlow
 
 ---
 
-# 🤝 Contributing
+# ⭐ Support
 
-Contributions are welcome.
+If you found this project useful, consider giving it a star on GitHub.
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to your branch
-5. Open a Pull Request
+It helps others discover the project and motivates future improvements.
 
 ---
 
 # 📄 License
 
 This project is licensed under the MIT License.
-
----
-
-# 👨‍💻 Author
-
-Developed by **Paridhi Jain**
-
-If you found this project useful, consider giving it a ⭐ on GitHub.
