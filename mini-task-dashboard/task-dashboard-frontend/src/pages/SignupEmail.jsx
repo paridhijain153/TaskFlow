@@ -25,7 +25,7 @@ const SignupEmail = () => {
       setLoading(true);
 
       const response = await API.post(
-        "/api/auth/send-otp",
+        "/auth/send-otp",
         {
           email,
         }
