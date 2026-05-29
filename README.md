@@ -342,7 +342,7 @@ This project demonstrates practical experience with:
 
 Add screenshots inside a `screenshots` folder and reference them like:
 
-```md
+
 ## Login Page
 ![Login](./screenshots/login-page.png)
 
@@ -351,7 +351,7 @@ Add screenshots inside a `screenshots` folder and reference them like:
 
 ## Task Management
 ![Tasks](./screenshots/task-board.png)
-```
+
 
 ---
 
