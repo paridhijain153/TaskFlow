@@ -9,16 +9,20 @@ const transporter = nodemailer.createTransport({
 });
 
 async function sendOTPEmail(email, otp) {
-  await transporter.sendMail({
+  console.log("Trying to send email to:", email);
+
+  const info = await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to: email,
     subject: "TaskFlow OTP Verification",
     html: `
-      <h2>Your OTP</h2>
+      <h2>Your OTP is:</h2>
       <h1>${otp}</h1>
-      <p>This OTP expires in 10 minutes.</p>
+      <p>This OTP will expire in 10 minutes.</p>
     `,
   });
+
+  console.log("Email sent:", info.messageId);
 }
 
 module.exports = sendOTPEmail;
