@@ -11,16 +11,13 @@ const prisma = new PrismaClient()
 
 const router = express.Router()
 
-// SEND OTP
-// SEND OTP
 router.post("/send-otp", async (req, res) => {
   try {
     const { email } = req.body;
 
-    const existingUser =
-      await prisma.user.findUnique({
-        where: { email },
-      });
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
 
     if (existingUser) {
       return res.status(400).json({
@@ -44,19 +41,22 @@ router.post("/send-otp", async (req, res) => {
       },
     });
 
-    // TEMPORARY: Skip email sending
-    console.log("OTP:", otp);
+    console.log("Generated OTP:", otp);
+
+    // SEND EMAIL
+    await sendOTPEmail(email, otp);
+
+    console.log("OTP email sent");
 
     res.json({
-      message: "OTP generated successfully",
-      otp,
+      message: "OTP sent successfully",
     });
 
   } catch (error) {
-    console.log(error);
+    console.error("SEND OTP ERROR:", error);
 
     res.status(500).json({
-      message: "Server error",
+      message: error.message || "Server error",
     });
   }
 });

@@ -1,9 +1,7 @@
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -16,9 +14,9 @@ async function sendOTPEmail(email, otp) {
     to: email,
     subject: "TaskFlow OTP Verification",
     html: `
-      <h2>Your OTP is:</h2>
+      <h2>Your OTP</h2>
       <h1>${otp}</h1>
-      <p>This OTP will expire in 10 minutes.</p>
+      <p>This OTP expires in 10 minutes.</p>
     `,
   });
 }
