@@ -4,7 +4,6 @@ const { ZodError } = require("zod");
 
 const createTask = async (req, res) => {
   try {
-
     const validatedData = taskSchema.parse(req.body);
 
     const {
@@ -21,16 +20,14 @@ const createTask = async (req, res) => {
       status,
       progress,
       dueDate: dueDate ? new Date(dueDate) : null,
-      userId: req.user.id,
+      userId: req.user.userId,
     });
 
     res.status(201).json({
       success: true,
       data: newTask,
     });
-
   } catch (error) {
-
     if (error instanceof ZodError) {
       return res.status(400).json({
         success: false,
@@ -48,16 +45,15 @@ const createTask = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
   try {
-
-    const tasks = await taskService.getAllTasks(req.user.id);
+    const tasks = await taskService.getAllTasks(
+      req.user.userId
+    );
 
     res.status(200).json({
       success: true,
       data: tasks,
     });
-
   } catch (error) {
-
     res.status(500).json({
       success: false,
       message: error.message,
@@ -67,12 +63,11 @@ const getAllTasks = async (req, res) => {
 
 const getTaskById = async (req, res) => {
   try {
-
     const { id } = req.params;
 
     const task = await taskService.getTaskById(
       id,
-      req.user.id
+      req.user.userId
     );
 
     if (!task) {
@@ -86,9 +81,7 @@ const getTaskById = async (req, res) => {
       success: true,
       data: task,
     });
-
   } catch (error) {
-
     res.status(500).json({
       success: false,
       message: error.message,
@@ -98,7 +91,6 @@ const getTaskById = async (req, res) => {
 
 const updateTask = async (req, res) => {
   try {
-
     const validatedData = taskSchema.parse(req.body);
 
     const { id } = req.params;
@@ -113,7 +105,7 @@ const updateTask = async (req, res) => {
 
     const updatedTask = await taskService.updateTask(
       id,
-      req.user.id,
+      req.user.userId,
       {
         title,
         description,
@@ -127,9 +119,7 @@ const updateTask = async (req, res) => {
       success: true,
       data: updatedTask,
     });
-
   } catch (error) {
-
     if (error instanceof ZodError) {
       return res.status(400).json({
         success: false,
@@ -147,21 +137,18 @@ const updateTask = async (req, res) => {
 
 const deleteTask = async (req, res) => {
   try {
-
     const { id } = req.params;
 
     await taskService.deleteTask(
       id,
-      req.user.id
+      req.user.userId
     );
 
     res.status(200).json({
       success: true,
       message: "Task deleted successfully",
     });
-
   } catch (error) {
-
     res.status(500).json({
       success: false,
       message: error.message,
