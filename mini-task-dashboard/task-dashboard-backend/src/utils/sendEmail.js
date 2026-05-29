@@ -1,10 +1,18 @@
-const { Resend } = require("resend");
+const nodemailer = require("nodemailer");
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.BREVO_LOGIN,
+    pass: process.env.BREVO_SMTP_KEY,
+  },
+});
 
 async function sendOTPEmail(email, otp) {
-  const result = await resend.emails.send({
-    from: "onboarding@resend.dev",
+  const info = await transporter.sendMail({
+    from: '"TaskFlow" <paridhijain153@gmail.com>',
     to: email,
     subject: "TaskFlow OTP Verification",
     html: `
@@ -14,7 +22,7 @@ async function sendOTPEmail(email, otp) {
     `,
   });
 
-  console.log("RESEND RESULT:", result);
+  console.log("EMAIL SENT:", info.messageId);
 }
 
 module.exports = sendOTPEmail;

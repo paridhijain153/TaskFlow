@@ -126,7 +126,7 @@ export default function VerifyOTP() {
 
           <div className="text-center pt-2">
             <Link
-              to="/signup-email"
+              to="/signup"
               className="text-white/80 underline text-sm"
             >
               Change Email
