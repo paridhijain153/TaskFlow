@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 import API from "../services/api";
 
 const SignupEmail = () => {
-
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -21,7 +20,6 @@ const SignupEmail = () => {
     }
 
     try {
-
       setLoading(true);
 
       const response = await API.post(
@@ -33,7 +31,13 @@ const SignupEmail = () => {
 
       toast.success(
         response?.data?.message ||
-        "OTP sent successfully"
+          "OTP sent successfully"
+      );
+
+      // SAVE EMAIL FOR OTP VERIFICATION
+      localStorage.setItem(
+        "signupEmail",
+        email
       );
 
       navigate("/verify-otp", {
@@ -41,24 +45,19 @@ const SignupEmail = () => {
       });
 
     } catch (err) {
-
       toast.error(
         err?.response?.data?.message ||
-        err?.message ||
-        "Something went wrong"
+          err?.message ||
+          "Something went wrong"
       );
-
     } finally {
-
       setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-700 to-pink-700">
-
       <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-10 w-full max-w-md shadow-2xl border border-white/20">
-
         <div className="flex justify-center mb-6">
           <div className="bg-white/10 p-4 rounded-full">
             <Mail
@@ -77,9 +76,7 @@ const SignupEmail = () => {
         </p>
 
         <form onSubmit={handleSubmit}>
-
           <div className="mb-6">
-
             <label className="block text-white mb-2">
               Email Address
             </label>
@@ -93,7 +90,6 @@ const SignupEmail = () => {
                 setEmail(e.target.value)
               }
             />
-
           </div>
 
           <button
@@ -105,24 +101,18 @@ const SignupEmail = () => {
               ? "Sending OTP..."
               : "Send OTP"}
           </button>
-
         </form>
 
         <p className="text-center text-gray-200 mt-8">
-
           Already have an account?{" "}
-
           <Link
             to="/login"
             className="underline font-semibold"
           >
             Login
           </Link>
-
         </p>
-
       </div>
-
     </div>
   );
 };
