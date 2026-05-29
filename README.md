@@ -344,16 +344,13 @@ Add screenshots inside a `screenshots` folder and reference them like:
 
 ```md
 ## Login Page
-![Login](./screenshots/login.png)
-
-## OTP Verification
-![OTP](./screenshots/otp.png)
+![Login](./screenshots/login-page.png)
 
 ## Dashboard
 ![Dashboard](./screenshots/dashboard.png)
 
 ## Task Management
-![Tasks](./screenshots/tasks.png)
+![Tasks](./screenshots/task-board.png)
 ```
 
 ---
