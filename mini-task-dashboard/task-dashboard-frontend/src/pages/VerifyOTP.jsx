@@ -32,7 +32,7 @@ export default function VerifyOTP() {
         "Email not found. Please signup again."
       );
 
-      navigate("/signup-email");
+      navigate("/signup");
       return;
     }
 
