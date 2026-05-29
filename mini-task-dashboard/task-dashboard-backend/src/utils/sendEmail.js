@@ -66,6 +66,7 @@ async function sendOTPEmail(email, otp) {
   `,
 });
 
+
   console.log("BREVO RESULT:", result);
 }
 
