@@ -98,6 +98,22 @@ https://github.com/paridhijain153/TaskFlow
 * Render (Backend)
 * Supabase (Database)
 
+## AI Tools Used
+
+The following AI tools were used to accelerate development and learning:
+
+- ChatGPT
+- GitHub Copilot (if used)
+- Cursor AI (if used)
+
+AI was used for:
+- Debugging
+- Code review
+- Architecture discussions
+- Documentation generation
+
+All implementation, customization, testing, and deployment were completed manually.
+
 ---
 
 # 🏗️ Architecture
@@ -350,6 +366,7 @@ Add screenshots inside a `screenshots` folder and reference them like:
 ![Dashboard](./screenshots/dashboard.png)
 
 ## Task Management
+
 ![Tasks](./screenshots/task-board.png)
 
 
