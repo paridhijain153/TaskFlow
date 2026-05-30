@@ -103,8 +103,6 @@ https://github.com/paridhijain153/TaskFlow
 The following AI tools were used to accelerate development and learning:
 
 - ChatGPT
-- GitHub Copilot (if used)
-- Cursor AI (if used)
 
 AI was used for:
 - Debugging
